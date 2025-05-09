@@ -1,0 +1,865 @@
+body {
+  margin: 0;
+  background: #1a1a1a;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#game-container {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+}
+
+#player-select button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #333;
+  color: white;
+  border: 2px solid #444;
+  border-radius: 5px;
+}
+
+#player-select button:hover {
+  background: #444;
+}
+
+.card {
+  width: 120px;
+  height: 180px;
+  background: #222;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card .character {
+  width: 80px;
+  height: 80px;
+  margin: 10px auto;
+  border-radius: 5px;
+}
+
+.card .info {
+  padding: 5px;
+}
+
+.card .name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card .power {
+  font-size: 24px;
+  font-weight: bold;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+#opponent-hands {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.opponent-hand {
+  display: none !important; 
+  gap: 5px;
+}
+
+.score-display {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#play-area {
+  position: relative;
+  min-height: 200px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#player-hand {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.card.back {
+  background: #444;
+}
+
+#game-over {
+  background: rgba(0,0,0,0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#play-again {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #333;
+  color: white;
+  border: 2px solid #444;
+  border-radius: 5px;
+}
+
+.card.enhanced {
+  animation: glow 1.5s ease-in-out infinite alternate;
+  box-shadow: 0 0 10px #ffd700;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #ffd700;
+  }
+  to {
+    box-shadow: 0 0 20px #ffd700;
+  }
+}
+
+.reflection-lyrics {
+  font-size: 32px;
+  color: #ff3300;
+  text-shadow: 0 0 10px #ff0000;
+  z-index: 1000;
+  text-align: center;
+  margin: 20px 0;
+  opacity: 0;
+  animation: fadeInOut 2s forwards;
+}
+
+@keyframes fireGlow {
+  from {
+    box-shadow: 0 0 5px #ff0000,
+                0 0 10px #ff0000,
+                0 0 15px #ff3300;
+  }
+  to {
+    box-shadow: 0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 30px #ff3300;
+  }
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+.card[data-card-id="reflection"].enhanced {
+  animation: fireGlow 1.5s ease-in-out infinite alternate !important;
+}
+
+.card[data-card-id="reflection"].deactivated {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.card.glitch {
+  animation: glitch 0.5s infinite;
+  background: #000;
+}
+
+.glitch-bg {
+  background: linear-gradient(45deg, #000, #111);
+  position: relative;
+  overflow: hidden;
+}
+
+.glitch-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.1) 0px,
+    rgba(255,255,255,0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: scan 2s linear infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+@keyframes scan {
+  from { transform: translateY(-100%) }
+  to { transform: translateY(100%) }
+}
+
+.card.rare {
+  background: linear-gradient(45deg, #ff0080, #7928ca);
+  animation: rarePulse 2s infinite;
+}
+
+.card.damaged {
+  animation: damage 0.5s ease-in-out;
+  box-shadow: 0 0 20px #0066ff;
+}
+
+@keyframes rarePulse {
+  0% { box-shadow: 0 0 5px #ff0080; }
+  50% { box-shadow: 0 0 20px #7928ca; }
+  100% { box-shadow: 0 0 5px #ff0080; }
+}
+
+@keyframes damage {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(0.9); filter: brightness(1.5); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes textGlitch {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(-10deg); }
+  40% { transform: skew(10deg); }
+  60% { transform: matrix(1, 0.2, 0, 1, 0, 0); }
+  80% { transform: matrix(1, -0.2, 0, 1, 0, 0); }
+  100% { transform: skew(0deg); }
+}
+
+.card[data-card-id="moonlight"] {
+  background: black;
+  position: relative;
+  overflow: hidden;
+}
+
+.card[data-card-id="moonlight"] .name,
+.card[data-card-id="moonlight"] .ability {
+  animation: textGlitch 0.3s infinite;
+  color: white;
+  text-shadow: 2px 2px red, -2px -2px blue;
+}
+
+.card[data-card-id="moonlight"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255,255,255,0.1) 50%, transparent 50%);
+  animation: scan 4s linear infinite;
+}
+
+.card[data-card-id="highpoint"] {
+  background: linear-gradient(45deg, #00f, #ff0);
+}
+
+.title-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#rules-section {
+  flex: 1;
+  max-width: 600px;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.game-options {
+  flex: 1;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Rules Modal Styles */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.9);
+  overflow-y: auto;
+}
+
+.modal-content {
+  background-color: #1a1a1a;
+  margin: 5% auto;
+  padding: 20px;
+  border: 2px solid #444;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 10px;
+  position: relative;
+  color: #fff;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #fff;
+}
+
+.rules-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.sunlight-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  animation: glow 2s ease-in-out infinite;
+}
+
+.rules-text {
+  line-height: 1.6;
+}
+
+.rules-text h3 {
+  color: #ffd700;
+  margin-top: 20px;
+}
+
+.rules-text ul {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.rules-text li {
+  margin: 10px 0;
+  position: relative;
+}
+
+.rules-text li:before {
+  content: "•";
+  color: #ffd700;
+  position: absolute;
+  left: -15px;
+}
+
+#view-rules {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #333;
+  color: white;
+  border: 2px solid #444;
+  border-radius: 5px;
+}
+
+#view-rules:hover {
+  background: #444;
+}
+
+.win-message {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  animation: fadeInUp 0.3s ease-out;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: pre-line;
+  text-align: center;
+  width: 80%;
+  max-width: 600px;
+}
+
+.win-message .avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #ffd700;
+}
+
+.win-message.enhanced .avatar {
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+.win-message.null {
+  font-family: monospace;
+  text-shadow: 2px 2px red, -2px -2px blue;
+  animation: textGlitch 0.3s infinite;
+}
+
+.win-message.null .avatar {
+  animation: glitch 0.5s infinite;
+  background: #000;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.business-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.business-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #44b3c2;
+  animation: businessPulse 2s ease-in-out infinite;
+}
+
+@keyframes businessPulse {
+  0% { box-shadow: 0 0 5px #44b3c2; }
+  50% { box-shadow: 0 0 20px #44b3c2; }
+  100% { box-shadow: 0 0 5px #44b3c2; }
+}
+
+.business-text {
+  line-height: 1.6;
+  font-size: 1.1em;
+  position: relative;
+}
+
+.business-text::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9em;
+  color: #888;
+}
+
+.card-offer {
+  margin: 20px 0;
+  padding: 10px;
+  background: rgba(68, 179, 194, 0.1);
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#accept-offer {
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #44b3c2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background 0.3s;
+  display: block;
+}
+
+#accept-offer:hover {
+  background: #3a98a5;
+}
+
+#close-business {
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #44b3c2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background 0.3s;
+  display: block;
+}
+
+#close-business:hover {
+  background: #3a98a5;
+}
+
+.main-button {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #333;
+  color: white;
+  border: 2px solid #444;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.main-button:hover {
+  background: #444;
+}
+
+.code-entry {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#code-input {
+  padding: 10px;
+  font-size: 18px;
+  width: 120px;
+  text-align: center;
+  background: #333;
+  color: white;
+  border: 2px solid #444;
+  border-radius: 5px;
+}
+
+#code-input:focus {
+  outline: none;
+  border-color: #ffd700;
+}
+
+#code-message {
+  margin-top: 10px;
+  font-size: 16px;
+  min-height: 20px;
+  color: #ffd700;
+  width: 100%;
+  text-align: center;
+}
+
+@keyframes sparkle {
+  0%, 100% { box-shadow: 0 0 5px #00ff00; }
+  50% { box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00; }
+}
+
+.card.ginger-enhanced {
+  animation: sparkle 1.5s ease-in-out infinite alternate;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+@keyframes glitchRed {
+  0% { transform: translate(0); text-shadow: -2px 0 #ff0000; }
+  25% { transform: translate(-2px, 2px); text-shadow: 2px 0 #ff0000; }
+  50% { transform: translate(2px, -2px); text-shadow: -2px 0 #ff0000; }
+  75% { transform: translate(-2px, -2px); text-shadow: 2px 0 #ff0000; }
+  100% { transform: translate(0); text-shadow: -2px 0 #ff0000; }
+}
+
+.card.assassin {
+  animation: glitchRed 0.3s infinite;
+  box-shadow: 0 0 10px #ff0000;
+}
+
+.card[data-card-id="assassin"] {
+  background: linear-gradient(45deg, #800000, #000);
+  animation: glitchRed 0.3s infinite;
+}
+
+@keyframes burn {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(0.9); filter: brightness(2) sepia(1) saturate(5); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.burning {
+  animation: burn 1s ease-in-out;
+  position: relative;
+}
+
+@keyframes friendship {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.1); filter: brightness(1.5) hue-rotate(280deg); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.friendship-bonus {
+  animation: friendship 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.card[data-card-id="subject_192"] {
+  background: linear-gradient(45deg, #000, #333);
+  position: relative;
+  overflow: hidden;
+}
+
+.card[data-card-id="subject_192"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  mask: radial-gradient(circle at center, transparent 50%, black 70%);
+  -webkit-mask: radial-gradient(circle at center, transparent 50%, black 70%);
+  animation: melt 3s linear infinite;
+}
+
+@keyframes melt {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.card[data-card-id="subject_192"] .name,
+.card[data-card-id="subject_192"] .ability {
+  animation: textGlitch 0.3s infinite;
+  color: black;
+  text-shadow: 2px 2px #00ff00, -2px -2px #ff00ff;
+}
+
+.card[data-card-id="cyrus"] {
+  position: relative;
+}
+
+.card[data-card-id="cyrus"].enhanced::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 50%, rgba(255,0,0,0.2) 100%);
+  pointer-events: none;
+}
+
+.card[data-card-id="fevaa"] {
+  background: linear-gradient(45deg, #ff69b4, #800000);
+}
+
+.card[data-card-id="binx"] {
+  background: linear-gradient(45deg, #87ceeb, #e6e6fa);
+}
+
+@media (max-width: 768px) {
+  .title-layout {
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  #rules-section {
+    max-width: 100%;
+    font-size: 0.9em;
+    padding: 15px;
+  }
+
+  .game-options {
+    max-width: 100%;
+  }
+
+  #opponent-hands {
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .opponent-hand {
+    display: none;
+  }
+
+  #play-area {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  #player-hand {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .card {
+    width: 90px;  
+    height: 135px;
+    font-size: 0.8em;
+  }
+
+  .card .character {
+    width: 60px;
+    height: 60px;
+    margin: 5px auto;
+  }
+
+  .card .power {
+    font-size: 18px;
+  }
+
+  .card .ability {
+    font-size: 0.7em;
+  }
+
+  .modal-content {
+    width: 95%;
+    margin: 2% auto;
+    padding: 15px;
+    font-size: 0.9em;
+  }
+
+  .win-message {
+    font-size: 0.9em;
+    padding: 8px 15px;
+    bottom: -35px; 
+  }
+
+  .win-message + .win-message {
+    bottom: -70px; 
+  }
+
+  .score-display {
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: auto;
+    max-width: 90%;
+  }
+
+  .rules-header img,
+  .business-header img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .card .info {
+    padding: 3px;
+  }
+
+  .card .name {
+    font-size: 0.8em;
+    margin-bottom: 2px;
+  }
+
+  body {
+    padding: 10px;
+  }
+
+  #game-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 5px;
+  }
+
+  button {
+    min-height: 44px; 
+    min-width: 44px;
+    margin: 5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .card {
+    width: 80px;
+    height: 120px;
+  }
+
+  .card .character {
+    width: 50px;
+    height: 50px;
+  }
+
+  .card .power {
+    font-size: 16px;
+  }
+
+  .card .ability {
+    font-size: 0.6em;
+  }
+}
+
+.burning {
+  animation: burn 1s ease-in-out;
+  position: relative;
+}
+
+.nullified {
+  animation: nullify 1s ease-in-out;
+  opacity: 0.5;
+}
+
+@keyframes nullify {
+  0% { transform: scale(1); filter: grayscale(0); }
+  50% { transform: scale(0.95); filter: grayscale(1); }
+  100% { transform: scale(1); filter: grayscale(0); }
+}
