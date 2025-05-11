@@ -2,13 +2,15 @@
 import { CARDS, UNCOMMON_CARDS, RARE_CARDS, SPECIAL_CASES } from './cards.js';
 import { messages, tieMessages } from './messages.js';
 import { showBusinessReview } from './business.js';
+import { AchievementManager } from './achievements.js';
 
 let nextGameGuaranteedCard = null;
 let hadReflectionLastGame = false;
 let activeCode = null;
 
-class Game {
+export class Game {
   constructor() {
+    this.achievementManager = new AchievementManager();
     this.players = [];
     this.currentPlayer = 0;
     this.playArea = [];
@@ -17,33 +19,16 @@ class Game {
     this.setupEventListeners();
     this.setupCodeSystem();
     
-    // Rules modal functionality
+    // Only setup rules modal button - removed ambiguous selector
     const rulesModal = document.getElementById('rules-modal');
-    const rulesButton = document.querySelector('#player-select .game-options button:not([data-players])'); 
-    
-    // Fallback if the above selector is too specific or there's no unique button
-    // const rulesButton = document.getElementById('rules-button'); 
-
-
+    const rulesButton = document.getElementById('view-rules');
     const closeRulesBtn = document.querySelector('#rules-modal .close');
 
     if (rulesButton) {
       rulesButton.addEventListener('click', () => {
         rulesModal.style.display = 'block';
       });
-    } else {
-        // If no specific rules button, try to find a generic one or log an error.
-        // This part is tricky without knowing the exact HTML intent for a rules button.
-        // Let's assume for now the user might add a "View Rules" button within .game-options later.
-        const potentialRulesButton = Array.from(document.querySelectorAll('#player-select .game-options button'))
-                                          .find(btn => !btn.dataset.players && btn.textContent.toLowerCase().includes('rules'));
-        if (potentialRulesButton) {
-            potentialRulesButton.addEventListener('click', () => {
-                rulesModal.style.display = 'block';
-            });
-        }
     }
-
 
     if (closeRulesBtn) {
       closeRulesBtn.addEventListener('click', () => {
@@ -51,7 +36,6 @@ class Game {
       });
     }
 
-    // Close modal when clicking outside
     window.addEventListener('click', (event) => {
       if (event.target === rulesModal) {
         rulesModal.style.display = 'none';
@@ -62,8 +46,9 @@ class Game {
   setupCodeSystem() {
     const codeInput = document.getElementById('code-input');
     const messageElement = document.getElementById('code-message');
+    const sendButton = document.getElementById('send-code');
 
-    if (!codeInput || !messageElement) {
+    if (!codeInput || !messageElement || !sendButton) {
       console.error('Code system elements not found');
       return;
     }
@@ -73,38 +58,50 @@ class Game {
       e.target.value = e.target.value.replace(/[^0-9]/g, '');
     });
 
-    // Handle enter key press
+    const validateCode = () => {
+      const code = codeInput.value;
+      switch(code) {
+        case '2010':
+          messageElement.textContent = "Code accepted! Savior will join your next battle.";
+          messageElement.style.color = '#00ff00';
+          activeCode = 'SAVIOR';
+          break;
+        case '1981':
+          messageElement.textContent = "Code accepted! Rare cards will fill your next deck.";
+          messageElement.style.color = '#00ff00';
+          activeCode = 'RARE';
+          break;
+        case '1111':
+          messageElement.textContent = "Code accepted! Friendship power activated!";
+          messageElement.style.color = '#00ff00';
+          activeCode = 'FRIENDS';
+          break;
+        case '1910':
+          messageElement.textContent = "Code accepted! Double enhancement activated!";
+          messageElement.style.color = '#00ff00';
+          activeCode = 'DOUBLE';
+          break;
+        default:
+          messageElement.textContent = "Invalid code.";
+          messageElement.style.color = '#ff0000';
+          activeCode = null;
+          break;
+      }
+      
+      setTimeout(() => {
+        messageElement.textContent = "";
+      }, 3000);
+      
+      codeInput.value = '';
+    };
+
+    // Handle send button click
+    sendButton.addEventListener('click', validateCode);
+
+    // Also keep Enter key functionality
     codeInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
-        const code = codeInput.value;
-        switch(code) {
-          case '2010':
-            messageElement.textContent = "Code accepted! Savior will join your next battle.";
-            activeCode = 'SAVIOR';
-            break;
-          case '1981':
-            messageElement.textContent = "Code accepted! Rare cards will fill your next deck.";
-            activeCode = 'RARE';
-            break;
-          case '1111':
-            messageElement.textContent = "Code accepted! Friendship power activated!";
-            activeCode = 'FRIENDS';
-            break;
-          case '1910':
-            messageElement.textContent = "Code accepted! Double enhancement activated!";
-            activeCode = 'DOUBLE';
-            break;
-          default:
-            messageElement.textContent = "Invalid code.";
-            activeCode = null;
-            break;
-        }
-        
-        setTimeout(() => {
-          messageElement.textContent = "";
-        }, 3000);
-        
-        codeInput.value = '';
+        validateCode();
       }
     });
   }
@@ -171,6 +168,11 @@ class Game {
         deck: this.generateDeck(i === 0), // Pass true if it's the player's deck
         isAI: i !== 0
       });
+      
+      // Check achievements for player's deck only
+      if (i === 0) {
+        this.achievementManager.checkDeckAchievements(this.players[i].deck);
+      }
     }
 
     if (nextGameGuaranteedCard && nextGameGuaranteedCard.id === 'reflection') {
@@ -737,34 +739,7 @@ class Game {
       }
     }
 
-    // Find any Savior card in the losing player's played cards
-    // This part remains the same as in the current code, but is now after the winners are recalculated.
-
-    // Show Ginger's loss responses
-    if (winners[0].playerId !== 0) {
-      const gingerCard = this.playArea.find(p => p.card.id === 'ginger' && p.playerId === 0);
-      if (gingerCard) {
-        setTimeout(() => {
-          const lossMessage = document.createElement('div');
-          lossMessage.className = 'win-message';
-          lossMessage.style.bottom = '-80px'; // Position below winner message
-          
-          const avatar = document.createElement('div');
-          avatar.className = 'avatar';
-          avatar.style.backgroundImage = 'url(ginger.png)';
-          
-          const messageText = document.createElement('span');
-          const responses = gingerCard.card.lossResponses[winners[0].card.id] || gingerCard.card.lossResponses.default;
-          messageText.textContent = responses[Math.floor(Math.random() * responses.length)];
-          
-          lossMessage.appendChild(avatar);
-          lossMessage.appendChild(messageText);
-          document.getElementById('play-area').appendChild(lossMessage);
-          
-          setTimeout(() => lossMessage.remove(), 2000);
-        }, 1000);
-      }
-    }
+    this.achievementManager.checkPlayAreaAchievements(this.playArea);
   }
 
   endGame() {
@@ -809,6 +784,8 @@ class Game {
         });
       }, 5000);
     }
+
+    this.achievementManager.checkGameEndAchievements(this);
   }
 
   renderOpponentHands() {
@@ -1164,34 +1141,7 @@ class Game {
       }
     }
 
-    // Find any Savior card in the losing player's played cards
-    // This part remains the same as in the current code, but is now after the winners are recalculated.
-
-    // Show Ginger's loss responses
-    if (winners[0].playerId !== 0) {
-      const gingerCard = this.playArea.find(p => p.card.id === 'ginger' && p.playerId === 0);
-      if (gingerCard) {
-        setTimeout(() => {
-          const lossMessage = document.createElement('div');
-          lossMessage.className = 'win-message';
-          lossMessage.style.bottom = '-80px'; // Position below winner message
-          
-          const avatar = document.createElement('div');
-          avatar.className = 'avatar';
-          avatar.style.backgroundImage = 'url(ginger.png)';
-          
-          const messageText = document.createElement('span');
-          const responses = gingerCard.card.lossResponses[winners[0].card.id] || gingerCard.card.lossResponses.default;
-          messageText.textContent = responses[Math.floor(Math.random() * responses.length)];
-          
-          lossMessage.appendChild(avatar);
-          lossMessage.appendChild(messageText);
-          document.getElementById('play-area').appendChild(lossMessage);
-          
-          setTimeout(() => lossMessage.remove(), 2000);
-        }, 1000);
-      }
-    }
+    this.achievementManager.checkPlayAreaAchievements(this.playArea);
   }
 
   endGame() {
@@ -1236,6 +1186,8 @@ class Game {
         });
       }, 5000);
     }
+
+    this.achievementManager.checkGameEndAchievements(this);
   }
 }
 

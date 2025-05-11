@@ -991,5 +991,42 @@ export const SPECIAL_CASES = [
       document.getElementById('play-area').appendChild(effectMsg);
       setTimeout(() => effectMsg.remove(), 2000);
     }
+  },
+  {
+    id: 'egg',
+    name: 'egg',
+    power: 1, 
+    ability: 'it is an egg',
+    image: 'egg.png',
+    rarity: 'special',
+    applyAbility: function() {
+      // Egg does nothing. It's just an egg.
+    }
+  },
+  {
+    id: 'knight',
+    name: 'The Knight',
+    power: 7,
+    ability: 'Lost Honor: Power increases by 3 if Moonlight or NULL appear in play, due to their corrupted connection',
+    image: 'knight.png',
+    rarity: 'special',
+    applyAbility: function(game, playArea) {
+      const corruptedPresent = playArea.some(p => 
+        p.card.id === 'moonlight' || p.card.id === 'null'
+      );
+      
+      if (corruptedPresent) {
+        this.power += 3;
+        
+        const effectMsg = document.createElement('div');
+        effectMsg.className = 'win-message';
+        effectMsg.innerHTML = `
+          <div class="avatar" style="background-image: url(knight.png)"></div>
+          <span>My lady... what have they done to you?</span>
+        `;
+        document.getElementById('play-area').appendChild(effectMsg);
+        setTimeout(() => effectMsg.remove(), 2000);
+      }
+    }
   }
 ];

@@ -124,6 +124,12 @@ export class GameState {
       if (!deck.some(c => c.id === 'binx') && Math.random() < 0.05) {
         deck.push({...SPECIAL_CASES.find(c => c.id === 'binx')});
       }
+      if (!deck.some(c => c.id === 'egg') && Math.random() < 0.005) { 
+        deck.push({...SPECIAL_CASES.find(c => c.id === 'egg')});
+      }
+      if (!deck.some(c => c.id === 'knight') && Math.random() < 0.04) { 
+        deck.push({...SPECIAL_CASES.find(c => c.id === 'knight')});
+      }
     }
     
     while (deck.length < 9) {

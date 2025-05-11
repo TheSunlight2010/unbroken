@@ -165,6 +165,18 @@ export const messages = {
       "Maybe try again when you're stronger... much stronger.",
       "I barely had to try!",
       "*yawns* Wake me up when there's real competition."
+    ],
+    'egg': [
+      "egg",
+      "it is an egg",
+      "egg moment",
+      "behold, egg"
+    ],
+    'knight': [
+      "My sword serves... for now.",
+      "This victory brings no joy.",
+      "Another battle, another day trapped.",
+      "I miss her light..."
     ]
   }
 };
@@ -266,6 +278,16 @@ export const tieMessages = {
       "This must be some kind of mistake...",
       "You... you're cheating! You have to be!",
       "I demand a rematch! Right now!"
+    ],
+    'egg': [
+      "two eggs",
+      "egg tie",
+      "double egg moment"
+    ],
+    'knight': [
+      "We are all prisoners here.",
+      "Honor demands I acknowledge your strength.",
+      "A fair contest... though none of this is fair."
     ]
   },
   pairs: {
@@ -310,6 +332,21 @@ export const tieMessages = {
     'drew_awareness': ["Wait... you're actually stronger than me?", "This can't be happening!"],
     'drew_null': ["What do you mean 'error'? Fight me properly!", "Stop glitching and face me!"],
     'drew_maturity': ["At least act your power level...", "This is beneath me."],
-    'drew_highpoint': ["Finally, a REAL challenge!", "Now THIS is more my speed!"]
+    'drew_highpoint': ["Finally, a REAL challenge!", "Now THIS is more my speed!"],
+    'knight_moonlight': [
+      "My lady... is that really you?",
+      "Please... remember me...",
+      "Your corruption pains me so."
+    ],
+    'knight_null': [
+      "You remind me of her... the void...",
+      "Another corrupted being...",
+      "We are both trapped here."
+    ],
+    'knight_awareness': [
+      "Your infinite power cannot free me.",
+      "Even omniscience has its limits.",
+      "Knowledge of all, yet you can't restore her..."
+    ]
   }
 };
