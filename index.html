@@ -1,0 +1,294 @@
+<html>
+<head>
+  <title>Unbroken Card Game</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+      "gsap": "https://unpkg.com/gsap@3.12.2/index.js"
+    }
+  }
+  </script>
+  <script type="module" src="game.js"></script>
+</head>
+<body>
+  <div id="game-container">
+    <div id="player-select">
+      <div class="title-layout">
+        <div id="rules-section">
+          <div class="rules-header">
+            <img src="sunlight.png" alt="The Sunlight" class="sunlight-avatar">
+            <h2>The Sunlight's Collection</h2>
+          </div>
+          <div class="rules-text">
+            <p>Welcome to my collection of extraordinary beings. I am The Sunlight, and I have gathered these unique creatures to study their remarkable abilities. Let me share what I've learned about each of them...</p>
+            
+            <h3>Common Beings</h3>
+            <ul>
+              <li><strong>Cupiditas</strong> - A shadow dweller whose power grows stronger in response to others. Their Shadow Strike ability demonstrates how they've learned to harness the darkness.</li>
+              <li><strong>Kite</strong> - A fascinating trickster who can perfectly mimic others' abilities. Their playful nature masks incredible adaptive potential.</li>
+              <li><strong>Prime</strong> - An immortal being whose very essence resists manipulation. They've taught me much about the nature of permanence.</li>
+              <li><strong>Carl-GPT</strong> - An artificial intelligence whose analytical abilities allow it to read others with remarkable accuracy.</li>
+              <li><strong>Worendy</strong> - A master of cursed ink whose abilities can weaken even the strongest opponents.</li>
+              <li><strong>Nova</strong> - A stellar entity that grows stronger in the presence of others, feeding off their collective energy.</li>
+              <li><strong>Echo</strong> - A resonant being capable of amplifying the powers of their allies.</li>
+              <li><strong>Terra</strong> - A protective force of nature who shields their companions from harm.</li>
+              <li><strong>Vesper</strong> - A creature of twilight who grows stronger when emerging from darkness.</li>
+              <li><strong>Aurora</strong> - A shapeshifter who matches the strength of the mightiest present.</li>
+              <li><strong>Sally</strong> - A fascinating specimen whose natural defensive abilities allow her to turn any attack into an advantage.</li>
+              <li><strong>Penelope</strong> - A cheerful young girl whose innocent joy brings warmth to any situation.</li>
+              <li><strong>Yelpo</strong> - A brilliant mind whose memories I've had to erase three times... for reasons best left forgotten. Despite this, she remains Penelope's closest friend, though neither remembers why.</li>
+              <li><strong>Chaos</strong> - Despite her name, she's quite mature. She balances her sibling Maturity's chaotic nature.</li>
+              <li><strong>Fester</strong> - A young fire goddess whose divine spark grows stronger in the presence of enhanced beings.</li>
+            </ul>
+
+            <p><em>Note: There are whispers of another being - one that defies documentation. Its very existence seems to corrupt my records. If you encounter it... well, let's hope you don't.</em></p>
+
+            <h3>Uncommon Beings</h3>
+            <ul>
+              <li><strong>Maturity</strong> - Despite their name, they use chaos to diminish others' strength.</li>
+              <li><strong>High Kite</strong> - A serious version of Kite who negates others' abilities entirely.</li>
+              <li><strong>Mr. Bones</strong> - An ancient being who grows stronger with each passing moment.</li>
+              <li><strong>Null</strong> - A glitch in reality itself, immune to all influence.</li>
+              <li><strong>Justice</strong> - A young hero-in-training whose pure heart empowers those around her. Her enhanced state seems permanent, possibly due to her unwavering spirit.</li>
+              <li><strong>KC</strong> - A delightful cat-dog hybrid whose friendship power strengthens all around her. Her bond with Penelope is particularly noteworthy.</li>
+              <li><strong>Feathers</strong> - A motherly bird who gains extraordinary strength from Penelope's presence. Her protective instincts make her both nurturing and formidable.</li>
+              <li><strong>Drew</strong> - An overconfident being who dismisses those he deems beneath him, nullifying the abilities of weaker cards.</li>
+              <li><strong>Alexander Huntsman</strong> - <em>Notes discovered in an abandoned greenhouse:</em> The original creator of the Hollowgreen anomalies, who staged an unsuccessful revolt against me alongside The Knight. Quite the romantic tale, those two. After their defeat, they escaped into the void under Reflection's protection. Most curious... reports indicate Alexander has begun showing signs of corruption, though they seem to resist it. Perhaps their connection to Reflection shields them somewhat? The void works in mysterious ways. Their greenhouse still stands between dimensions, slowly cultivating more anomalies. I should look into that...</li>
+              <li><strong>Blueberry</strong> - Kite's partner in mischief, intimately familiar with all their tricks. Together they're twice the trouble, each amplifying the other's abilities.</li>
+            </ul>
+
+            <h3>Rare Beings</h3>
+            <ul>
+              <li><strong>Subject 192</strong> - The Sunlight's first creation, a friendly yet deadly mass of living darkness. Despite its unsettling nature, it seeks connection with others.</li>
+              <li><strong>Cyrus</strong> - A skilled gunslinger who forms an unlikely but powerful friendship with Subject 192.</li>
+              <li><strong>Zero</strong> - A void that consumes others' power, turning emptiness into strength.</li>
+              <li><strong>Enraged Kite</strong> - A darker version of Kite, twisted by anger and capable of crippling the strongest foes.</li>
+              <li><strong>The Watcher</strong> - A mysterious entity whose piercing gaze can weaken even the mightiest of beings from afar.</li>
+              <li><strong>Awareness</strong> - Perhaps the most remarkable of all - a being of pure consciousness whose power knows no bounds.</li>
+              <li><strong>Salvo</strong> - A master of flames whose inferno can reduce any being's power to cinders. Known to be Ginger's closest ally.</li>
+              <li><strong>Cocoa</strong> - A peculiar being whose confident confusion leads to unpredictable results. Never quite sure what they're doing, but always enthusiastic about it.</li>
+              <li><strong>Ember</strong> - A being from the Elementia World of the fire race. Their flames grow stronger in the presence of other fire-based beings.</li>
+              <li><strong>Aqua</strong> - Another Elementia World being, but of the water race. Their presence naturally weakens fire-based beings.</li>
+              <li><strong>Seven</strong> - A mysterious gambler who keeps his eyes hidden. His power fluctuates wildly with each appearance - sometimes weak, sometimes overwhelmingly strong. He refuses to speak of the incident that led to his condition.</li>
+              <li><strong>Vicki</strong> - A cheerful alien who founded the Sanctuary Squad alongside Subject 192. Her optimistic nature brings out the best in her unusual group of friends.</li>
+              <li><strong>Fossil</strong> - A divine protector whose angelic bones shield the Sanctuary Squad. Despite their intimidating appearance, they share Vicki's dedication to friendship and safety.</li>
+            </ul>
+
+            <h3>Special Cases</h3>
+            <ul>
+              <li><strong>Fevaa</strong> - A gentle demon whose kindness contradicts her appearance. Despite her fearsome form, she's known for helping others.</li>
+              <li><strong>Binx</strong> - A mischievous angel whose jokes often cross the line. His divine nature seems at odds with his personality.</li>
+              <li><strong>Reflection</strong> - A lost soul whose power grows from defeat, harboring a devastating final performance.</li>
+              <li><strong>Ginger</strong> - An expert marksman whose enhancement abilities differ from The Sunlight's, empowering cards with nature's energy.</li>
+              <li><strong>Savior</strong> - A mysterious being with dormant power. When defeated, they transform into something... different. I dare not speak more of what they become.</li>
+              <li><strong>Doppel</strong> - A mirror entity capable of transforming into any other being in The Sunlight's collection. Some say it's searching for its own identity.</li>
+              <li><strong>The Knight</strong> - A noble warrior once sworn to serve The Moonlight. When I trapped them in this collection, they lost their purpose. Now they wander these battles, forever seeking their deleted lady. Their power grows stronger in the presence of corrupted beings, perhaps hoping to find traces of her in the void. Heh. Good luck with that.</li>
+              <li><strong>Allie</strong> - A curious case of curse displacement: I once saw Worendy manipulating ink on their reflection—an experiment with strange results. Now, a shifting figure appears around them, wearing new faces and speaking of things that never happened. The curse seems to have warped their identity.</li>
+              <li><strong>Eclipse</strong> - My deceased partner... She... she returned to me! Different each time I see her, but it's her, it must be... Though her form shifts between appearances, her strength remains consistent with her vessel. Most curious how the void preserves... </li>
+              <li><strong>SuNex</strong> - A divine being I was forced to weaken. They now inhabit NULL's discarded form, marked with a golden X - a seal of limitation. Even restrained, their power remains... concerning.</li>
+            </ul>
+
+            <h3>The Soul, The Heart, and The Sky</h3>
+            <p><em>Discovered in a mysterious cave by Binx, Kite, and Maturity. These beings seem to exist outside my influence, which is... concerning.</em></p>
+            <ul>
+              <li><strong>Ringmaster</strong> - A peculiar pumpkin-headed entity who speaks with thick accent and excessive volume. Their enthusiasm is... infectious.</li>
+              <li><strong>Sole</strong> - An illusion born of pure darkness, yet paradoxically emanating intense light from their eyes. The duality is fascinating.</li>
+              <li><strong>Blitz</strong> - A temporal anomaly: Fevaa and Binx's corrupted offspring from a future timeline. Her fallen angel status suggests some... interesting implications about divine corruption.</li>
+              <li><strong>Hitbox</strong> - One of my early experiments with the Golden Sword. Quite formidable, though curiously vulnerable to certain individuals and elemental forces.</li>
+              <li><strong>Goldie</strong> - Claims vast material wealth. Oddly powerless for one so supposedly affluent. Most curious.</li>
+              <li><strong>Leopold</strong> - An omnipresent listener who despises kindness while exhibiting it. The contradiction warrants further study.</li>
+              <li><strong>Lavender</strong> - ████ ██ ██. Reports suggest Hollowgreen connection ███████ plant elemental ████████ further investigation required.</li>
+              <li><strong>Frost</strong> - A dimensional refugee whose ice magic was weaponized against her will. Her power fluctuates with her emotional state - a defense mechanism, perhaps?</li>
+            </ul>
+
+            <h3>Hollowgreen Anomalies</h3>
+            <p><em>I found these peculiar beings in an abandoned greenhouse between dimensions. Their ability to generate protective shields makes them fascinating specimens for my collection...</em></p>
+            <ul>
+              <li><strong>Blossom</strong> - A gentle flower-like being with a mysterious vine covering her right eye. Her shield seems to respond to other plant-based entities.</li>
+              <li><strong>Herb</strong> - A curious fusion of plant and bone. The vines that wrap around this skull pulse with strange energy.</li>
+              <li><strong>Ciph</strong> - A dangerous specimen. This flower appears dormant at first, but when awakened... well, let's hope you don't awaken it.</li>
+              <li><strong>Soiley</strong> - An animate mass of earth and roots. Its shield grows stronger in the presence of other Hollowgreen beings.</li>
+              <li><strong>Evergreen</strong> - Resembles a common tomato at first glance, but its ability to manifest shields suggests otherwise. Quite territorial around other plant life.</li>
+            </ul>
+
+            <p><em>A note on their unique properties: These beings possess both a power level and a shield level - their true strength being the sum of both. Most curious indeed...</em></p>
+
+            <h3>The Rules of Combat</h3>
+            <p>These beings engage in trials of power, where:</p>
+            <ul>
+              <li>Each participant receives 9 cards from my collection</li>
+              <li>Some cards may be Enhanced by my power, increasing their strength</li>
+              <li>Each must play one card per round</li>
+              <li>The strongest power in each round claims victory</li>
+              <li>After all cards are played, the one with most victories shall be declared the winner</li>
+            </ul>
+
+            <p>Through these trials, I continue to learn about the nature of power and the incredible diversity of abilities that exist in our realm...</p>
+          </div>
+        </div>
+        <div class="game-options">
+          <h1>Unbroken</h1>
+          <div class="code-entry">
+            <div class="code-input-container">
+              <input type="text" id="code-input" placeholder="Enter Code" maxlength="4" pattern="[0-9]*">
+              <button id="send-code" class="main-button">Send</button>
+            </div>
+            <p id="code-message"></p>
+          </div>
+          <p>Select number of players:</p>
+          <button data-players="2">2 Players</button>
+          <button data-players="3">3 Players</button>
+          <button data-players="4">4 Players</button>
+          <button id="view-achievements" class="main-button">View Achievements</button>
+        </div>
+      </div>
+    </div>
+    <div id="game-board" style="display:none">
+      <div id="opponent-hands"></div>
+      <div id="play-area"></div>
+      <div id="player-hand"></div>
+    </div>
+    <div id="game-over" style="display:none">
+      <h2>Game Over!</h2>
+      <p id="winner-text"></p>
+    </div>
+
+    <div id="business-modal" class="modal" style="display:none">
+      <div class="modal-content">
+        <div class="business-header">
+          <img src="business.png" alt="Business" class="business-avatar">
+          <h2>Business Review</h2>
+        </div>
+        <div class="business-text">
+          <p id="business-comment"></p>
+          <div id="card-offer-section" style="display:none;">
+            <p>As a token of my appreciation, please select a valuable asset for your next venture:</p>
+            <div id="card-choices" class="card-offer">
+              <!-- Card choices will be populated here -->
+            </div>
+          </div>
+          <button id="close-business">Close</button>
+        </div>
+      </div>
+    </div>
+    <div id="achievements-modal" class="modal" style="display:none">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Achievements</h2>
+        <div id="achievements-list"></div>
+      </div>
+    </div>
+
+    <div id="rules-modal" class="modal" style="display:none">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="rules-header">
+          <img src="sunlight.png" alt="The Sunlight" class="sunlight-avatar">
+          <h2>The Sunlight's Collection</h2>
+        </div>
+        <div class="rules-text">
+          <p>Welcome to my collection of extraordinary beings. I am The Sunlight, and I have gathered these unique creatures to study their remarkable abilities. Let me share what I've learned about each of them...</p>
+          
+          <h3>Common Beings</h3>
+          <ul>
+            <li><strong>Feathers</strong> - A motherly bird who gains extraordinary strength from Penelope's presence. Her protective instincts make her both nurturing and formidable.</li>
+            <li><strong>Cupiditas</strong> - A shadow dweller whose power grows stronger in response to others. Their Shadow Strike ability demonstrates how they've learned to harness the darkness.</li>
+            <li><strong>Kite</strong> - A fascinating trickster who can perfectly mimic others' abilities. Their playful nature masks incredible adaptive potential.</li>
+            <li><strong>Prime</strong> - An immortal being whose very essence resists manipulation. They've taught me much about the nature of permanence.</li>
+            <li><strong>Carl-GPT</strong> - An artificial intelligence whose analytical abilities allow it to read others with remarkable accuracy.</li>
+            <li><strong>Worendy</strong> - A master of cursed ink whose abilities can weaken even the strongest opponents.</li>
+            <li><strong>Nova</strong> - A stellar entity that grows stronger in the presence of others, feeding off their collective energy.</li>
+            <li><strong>Echo</strong> - A resonant being capable of amplifying the powers of their allies.</li>
+            <li><strong>Terra</strong> - A protective force of nature who shields their companions from harm.</li>
+            <li><strong>Vesper</strong> - A creature of twilight who grows stronger when emerging from darkness.</li>
+            <li><strong>Aurora</strong> - A shapeshifter who matches the strength of the mightiest present.</li>
+            <li><strong>Sally</strong> - A fascinating specimen whose natural defensive abilities allow her to turn any attack into an advantage.</li>
+            <li><strong>Penelope</strong> - A cheerful young girl whose innocent joy brings warmth to any situation.</li>
+            <li><strong>Yelpo</strong> - A brilliant mind whose memories I've had to erase three times... for reasons best left forgotten. Despite this, she remains Penelope's closest friend, though neither remembers why.</li>
+            <li><strong>Chaos</strong> - Despite her name, she's quite mature. She balances her sibling Maturity's chaotic nature.</li>
+            <li><strong>Fester</strong> - A young fire goddess whose divine spark grows stronger in the presence of enhanced beings.</li>
+          </ul>
+          <p><em>Note: There are whispers of another being - one that defies documentation. Its very existence seems to corrupt my records. If you encounter it... well, let's hope you don't.</em></p>
+
+          <h3>Uncommon Beings</h3>
+          <ul>
+            <li><strong>Maturity</strong> - Despite their name, they use chaos to diminish others' strength.</li>
+            <li><strong>High Kite</strong> - A serious version of Kite who negates others' abilities entirely.</li>
+            <li><strong>Mr. Bones</strong> - An ancient being who grows stronger with each passing moment.</li>
+            <li><strong>Null</strong> - A glitch in reality itself, immune to all influence.</li>
+            <li><strong>Justice</strong> - A young hero-in-training whose pure heart empowers those around her. Her enhanced state seems permanent, possibly due to her unwavering spirit.</li>
+            <li><strong>KC</strong> - A delightful cat-dog hybrid whose friendship power strengthens all around her. Her bond with Penelope is particularly noteworthy.</li>
+            <li><strong>Feathers</strong> - A motherly bird who gains extraordinary strength from Penelope's presence. Her protective instincts make her both nurturing and formidable.</li>
+            <li><strong>Drew</strong> - An overconfident being who dismisses those he deems beneath him, nullifying the abilities of weaker cards.</li>
+            <li><strong>Alexander Huntsman</strong> - <em>Notes discovered in an abandoned greenhouse:</em> The original creator of the Hollowgreen anomalies, who staged an unsuccessful revolt against me alongside The Knight. Quite the romantic tale, those two. After their defeat, they escaped into the void under Reflection's protection. Most curious... reports indicate Alexander has begun showing signs of corruption, though they seem to resist it. Perhaps their connection to Reflection shields them somewhat? The void works in mysterious ways. Their greenhouse still stands between dimensions, slowly cultivating more anomalies. I should look into that...</li>
+            <li><strong>Blueberry</strong> - Kite's partner in mischief, intimately familiar with all their tricks. Together they're twice the trouble, each amplifying the other's abilities.</li>
+          </ul>
+
+          <h3>Rare Beings</h3>
+          <ul>
+            <li><strong>Subject 192</strong> - The Sunlight's first creation, a friendly yet deadly mass of living darkness. Despite its unsettling nature, it seeks connection with others.</li>
+            <li><strong>Cyrus</strong> - A skilled gunslinger who forms an unlikely but powerful friendship with Subject 192.</li>
+            <li><strong>Zero</strong> - A void that consumes others' power, turning emptiness into strength.</li>
+            <li><strong>Enraged Kite</strong> - A darker version of Kite, twisted by anger and capable of crippling the strongest foes.</li>
+            <li><strong>The Watcher</strong> - A mysterious entity whose piercing gaze can weaken even the mightiest of beings from afar.</li>
+            <li><strong>Awareness</strong> - Perhaps the most remarkable of all - a being of pure consciousness whose power knows no bounds.</li>
+            <li><strong>Salvo</strong> - A master of flames whose inferno can reduce any being's power to cinders. Known to be Ginger's closest ally.</li>
+            <li><strong>Cocoa</strong> - A peculiar being whose confident confusion leads to unpredictable results. Never quite sure what they're doing, but always enthusiastic about it.</li>
+            <li><strong>Ember</strong> - A being from the Elementia World of the fire race. Their flames grow stronger in the presence of other fire-based beings.</li>
+            <li><strong>Aqua</strong> - Another Elementia World being, but of the water race. Their presence naturally weakens fire-based beings.</li>
+            <li><strong>Seven</strong> - A mysterious gambler who keeps his eyes hidden. His power fluctuates wildly with each appearance - sometimes weak, sometimes overwhelmingly strong. He refuses to speak of the incident that led to his condition.</li>
+            <li><strong>Vicki</strong> - A cheerful alien who founded the Sanctuary Squad alongside Subject 192. Her optimistic nature brings out the best in her unusual group of friends.</li>
+            <li><strong>Fossil</strong> - A divine protector whose angelic bones shield the Sanctuary Squad. Despite their intimidating appearance, they share Vicki's dedication to friendship and safety.</li>
+          </ul>
+
+          <h3>Special Cases</h3>
+          <ul>
+            <li><strong>Fevaa</strong> - A gentle demon whose kindness contradicts her appearance. Despite her fearsome form, she's known for helping others.</li>
+            <li><strong>Binx</strong> - A mischievous angel whose jokes often cross the line. His divine nature seems at odds with his personality.</li>
+            <li><strong>Reflection</strong> - A lost soul whose power grows from defeat, harboring a devastating final performance.</li>
+            <li><strong>Ginger</strong> - An expert marksman whose enhancement abilities differ from The Sunlight's, empowering cards with nature's energy.</li>
+            <li><strong>Savior</strong> - A mysterious being with dormant power. When defeated, they transform into something... different. I dare not speak more of what they become.</li>
+            <li><strong>Doppel</strong> - A mirror entity capable of transforming into any other being in The Sunlight's collection. Some say it's searching for its own identity.</li>
+          </ul>
+
+          <h3>Hollowgreen Anomalies</h3>
+          <p><em>I found these peculiar beings in an abandoned greenhouse between dimensions. Their ability to generate protective shields makes them fascinating specimens for my collection...</em></p>
+          <ul>
+            <li><strong>Blossom</strong> - A gentle flower-like being with a mysterious vine covering her right eye. Her shield seems to respond to other plant-based entities.</li>
+            <li><strong>Herb</strong> - A curious fusion of plant and bone. The vines that wrap around this skull pulse with strange energy.</li>
+            <li><strong>Ciph</strong> - A dangerous specimen. This flower appears dormant at first, but when awakened... well, let's hope you don't awaken it.</li>
+            <li><strong>Soiley</strong> - An animate mass of earth and roots. Its shield grows stronger in the presence of other Hollowgreen beings.</li>
+            <li><strong>Evergreen</strong> - Resembles a common tomato at first glance, but its ability to manifest shields suggests otherwise. Quite territorial around other plant life.</li>
+          </ul>
+
+          <p><em>A note on their unique properties: These beings possess both a power level and a shield level - their true strength being the sum of both. Most curious indeed...</em></p>
+
+          <h3>The Rules of Combat</h3>
+          <p>These beings engage in trials of power, where:</p>
+          <ul>
+            <li>Each participant receives 9 cards from my collection</li>
+            <li>Some cards may be Enhanced by my power, increasing their strength</li>
+            <li>Each must play one card per round</li>
+            <li>The strongest power in each round claims victory</li>
+            <li>After all cards are played, the one with most victories shall be declared the winner</li>
+          </ul>
+
+          <p>Through these trials, I continue to learn about the nature of power and the incredible diversity of abilities that exist in our realm...</p>
+        </div>
+      </div>
+    </div>
+    <div id="achievement-popup" class="achievement-popup">
+      <div class="achievement-content">
+        <img id="achievement-icon" src="" alt="Achievement Icon">
+        <div class="achievement-text">
+          <h3 id="achievement-title"></h3>
+          <p id="achievement-description"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
