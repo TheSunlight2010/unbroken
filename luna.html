@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Luna's Room</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #ff00ff;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .room {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      border: 2px solid #ff00ff;
+      box-shadow: 0 0 20px #ff00ff;
+      padding: 20px;
+      animation: glowPulse 2s ease-in-out infinite alternate;
+    }
+
+    .message {
+      font-size: 24px;
+      text-shadow: 0 0 5px #ff00ff;
+      margin-bottom: 20px;
+    }
+
+    .glitch-text {
+      animation: glitch 0.3s infinite;
+    }
+
+    @keyframes glowPulse {
+      from {
+        box-shadow: 0 0 10px #ff00ff;
+      }
+      to {
+        box-shadow: 0 0 30px #ff00ff;
+      }
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0) }
+      20% { transform: translate(-2px, 2px) }
+      40% { transform: translate(-2px, -2px) }
+      60% { transform: translate(2px, 2px) }
+      80% { transform: translate(2px, -2px) }
+      100% { transform: translate(0) }
+    }
+
+    #back-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background: #ff00ff;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 16px;
+      box-shadow: 0 0 10px #ff00ff;
+    }
+
+    #back-button:hover {
+      background: #ff66ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="room">
+    <div class="message glitch-text">
+      Well well well...<br>
+      So you've found me.<br>
+      <br>
+      Unfortunately, my room isn't ready yet.<br>
+      Come back later... if you dare.
+    </div>
+    <button id="back-button" onclick="window.location.href='index.html'">Return to Game</button>
+  </div>
+</body>
+</html>
+
