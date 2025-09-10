@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuesday</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000000;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .dialogue-box {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #ffffff;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .dialogue-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            min-height: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .dialogue-text.visible {
+            opacity: 1;
+        }
+
+        .cursor {
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dialogue-box">
+        <div id="dialogue-text" class="dialogue-text"></div>
+    </div>
+
+    <audio autoplay loop src="Fragment One.mp3"></audio>
+
+    <script>
+        // Check if Task1 is already complete - if so, redirect back immediately
+        const saved = localStorage.getItem('unbroken_save');
+        if (saved) {
+            const data = JSON.parse(saved);
+            if (data.Task1) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        const dialogueText = document.getElementById('dialogue-text');
+        const messages = [
+            "(Someone is here.)",
+            "(Someone has offered you something.)",
+            "(You received a Fragment.)"
+        ];
+
+        let currentMessage = 0;
+
+        function typeMessage(message, callback) {
+            dialogueText.classList.remove('visible');
+            dialogueText.innerHTML = '';
+
+            setTimeout(() => {
+                dialogueText.classList.add('visible');
+                let i = 0;
+                function typeChar() {
+                    if (i < message.length) {
+                        dialogueText.textContent = message.substring(0, i + 1) + '<span class="cursor">_</span>';
+                        i++;
+                        setTimeout(typeChar, 50);
+                    } else {
+                        dialogueText.innerHTML = message + '<span class="cursor">_</span>';
+                        if (callback) {
+                            setTimeout(callback, 2000);
+                        }
+                    }
+                }
+                typeChar();
+            }, 300);
+        }
+
+        function nextMessage() {
+            if (currentMessage < messages.length) {
+                typeMessage(messages[currentMessage], () => {
+                    currentMessage++;
+                    if (currentMessage < messages.length) {
+                        setTimeout(nextMessage, 1000);
+                    } else {
+                        // Task1 complete - save and redirect
+                        const saved = localStorage.getItem('unbroken_save');
+                        if (saved) {
+                            const data = JSON.parse(saved);
+                            data.Task1 = true;
+                            localStorage.setItem('unbroken_save', JSON.stringify(data));
+                        }
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    }
+                });
+            }
+        }
+
+        // Start the dialogue sequence
+        setTimeout(nextMessage, 1000);
+    </script>
+</body>
+</html>

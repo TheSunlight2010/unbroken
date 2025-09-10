@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNBROKEN</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <div id="main-menu" class="screen active">
+            <h1 class="title">UNBROKEN</h1>
+            <p class="subtitle">The Sunlight's Domain</p>
+            <button class="menu-btn" onclick="showCharacterSelect()">FIGHT</button>
+            <button class="menu-btn" onclick="showShop()">SHOP</button>
+            <button class="menu-btn" onclick="showLore()">LORE</button>
+            <div class="sound-level-control" id="sound-level-container">
+                <label for="sound-level">Sound Level: </label>
+                <button id="randomize-sound" onclick="randomizeSoundLevel()">RANDOMIZE</button>
+                <span id="sound-level-value">50</span>
+            </div>
+            <div class="credits-display">Credits: <span id="player-credits">0</span></div>
+        </div>
+
+        <div id="character-select" class="screen">
+            <h2>Choose Your Fighter</h2>
+            <div id="character-grid" class="character-grid"></div>
+            <button class="back-btn" onclick="showMainMenu()">Back</button>
+        </div>
+
+        <div id="shop" class="screen">
+            <h2>Shop</h2>
+            <div id="shop-grid" class="shop-grid"></div>
+            <button class="back-btn" onclick="showMainMenu()">Back</button>
+        </div>
+
+        <div id="lore" class="screen">
+            <h2>Lore of The Void</h2>
+            <div id="lore-content">
+                <div id="lore-character-select" class="character-grid"></div>
+                <div id="lore-detail" class="lore-detail" style="display: none;">
+                    <h3 id="lore-title"></h3>
+                    <p id="lore-text"></p>
+                    <p id="lore-author" class="lore-author"></p>
+                    <button class="back-btn" onclick="hideLoreDetail()">Back to List</button>
+                </div>
+            </div>
+            <button class="back-btn" onclick="showMainMenu()">Back to Menu</button>
+        </div>
+
+        <div id="battle" class="screen">
+            <div class="battle-arena">
+                <div class="opponent-area">
+                    <div class="fighter-info">
+                        <h3 id="opponent-name">Opponent</h3>
+                        <div class="health-bar">
+                            <div class="health-fill" id="opponent-health"></div>
+                        </div>
+                        <p>Power: <span id="opponent-power">0</span></p>
+                    </div>
+                    <div class="fighter-sprite">
+                        <img id="opponent-sprite" src="" alt="Opponent">
+                    </div>
+                </div>
+
+                <div class="battle-log" id="battle-log"></div>
+
+                <div class="player-area">
+                    <div class="fighter-sprite">
+                        <img id="player-sprite" src="" alt="Player">
+                    </div>
+                    <div class="fighter-info">
+                        <h3 id="player-name">Player</h3>
+                        <div class="health-bar">
+                            <div class="health-fill" id="player-health"></div>
+                        </div>
+                        <p>Power: <span id="player-power">0</span></p>
+                    </div>
+                </div>
+
+                <div class="abilities">
+                    <div class="battle-mode-toggle">
+                        <button id="fight-mode" onclick="setBattleMode('fight')" class="mode-btn active">FIGHT</button>
+                        <button id="act-mode" onclick="setBattleMode('act')" class="mode-btn">ACT</button>
+                    </div>
+                    <div id="fight-abilities" class="ability-grid">
+                        <button id="ability-0" onclick="useAbility(0)">Attack</button>
+                        <button id="ability-1" onclick="useAbility(1)"></button>
+                        <button id="ability-2" onclick="useAbility(2)"></button>
+                        <button id="ability-3" onclick="useAbility(3)"></button>
+                    </div>
+                    <div id="act-abilities" class="ability-grid" style="display: none;">
+                        <button id="act-0" onclick="useActAbility(0)"></button>
+                        <button id="act-1" onclick="useActAbility(1)"></button>
+                        <button id="act-2" onclick="useActAbility(2)"></button>
+                        <button id="act-3" onclick="useActAbility(3)"></button>
+                        <button id="act-spare" onclick="attemptMercy()" class="spare-btn" disabled>SPARE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="victory" class="screen">
+            <h2>Victory!</h2>
+            <p id="victory-text">You have defeated your opponent!</p>
+            <p>Earned: <span id="credits-earned">0</span> Credits</p>
+            <button onclick="showMainMenu()">Return to Menu</button>
+        </div>
+
+        <div id="defeat" class="screen">
+            <h2>Defeat...</h2>
+            <p id="defeat-text">You have been consumed by the void...</p>
+            <button onclick="showMainMenu()">Return to Menu</button>
+        </div>
+    </div>
+
+    <audio id="battle-music" loop></audio>
+
+    <script type="module" src="game.js"></script>
+
+    <script>
+        // Add this script to check Task1 on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('unbroken_save');
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.Task1) {
+                    document.getElementById('sound-level-container').style.display = 'none';
+                }
+            }
+        });
+
+        function randomizeSoundLevel() {
+            // This will be replaced by the game instance when it loads
+            if (window.game) {
+                window.game.randomizeSoundLevel();
+            } else {
+                // Fallback for when game hasn't loaded yet
+                const newLevel = Math.floor(Math.random() * 100) + 1;
+                const soundLevelValue = document.getElementById('sound-level-value');
+                if (soundLevelValue) {
+                    soundLevelValue.textContent = newLevel;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
