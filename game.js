@@ -308,10 +308,10 @@ class Game {
         
         if ((this.currentCharacter === 'mona' && this.currentOpponent === 'kite') || 
             (this.currentCharacter === 'kite' && this.currentOpponent === 'mona')) {
-            if (this.currentCharacter === 'mona') playerSprite = '/mona_housearrest.png';
-            else if (this.currentCharacter === 'kite') playerSprite = '/kite_housearrest.png';
-            if (this.currentOpponent === 'mona') opponentSprite = '/mona_housearrest.png';
-            else if (this.currentOpponent === 'kite') opponentSprite = '/kite_housearrest.png';
+            if (this.currentCharacter === 'mona') playerSprite = 'mona_housearrest.png';
+            else if (this.currentCharacter === 'kite') playerSprite = 'kite_housearrest.png';
+            if (this.currentOpponent === 'mona') opponentSprite = 'mona_housearrest.png';
+            else if (this.currentOpponent === 'kite') opponentSprite = 'kite_housearrest.png';
         }
         
         document.getElementById('player-name').textContent = playerChar.name;
